@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'core/theme/app_theme.dart';
 import 'presentation/bindings/app_binding.dart';
 import 'presentation/route/app_pages.dart';
 import 'presentation/route/routes.dart';
@@ -12,10 +13,10 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Weather App',
-      theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      
+      theme: AppTheme.light,
+
       initialBinding: AppBinding(),
-      
+
       // Routing
       initialRoute: Routes.home,
       getPages: AppPages.pages,
