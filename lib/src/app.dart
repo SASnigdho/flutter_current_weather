@@ -14,6 +14,8 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       title: 'Weather App',
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.dark,
 
       initialBinding: AppBinding(),
 
