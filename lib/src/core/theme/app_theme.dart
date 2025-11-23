@@ -50,6 +50,7 @@ class AppTheme {
       centerTitle: true,
     ),
     cardTheme: CardThemeData(
+      shadowColor: Colors.white24,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

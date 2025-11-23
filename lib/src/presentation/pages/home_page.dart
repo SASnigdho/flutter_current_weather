@@ -13,7 +13,6 @@ class HomePage extends GetView<WeatherController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        backgroundColor: Colors.blue[50],
         appBar: _buildAppBar(),
         body: _buildBody(),
         floatingActionButton: _buildFabButton(),
@@ -25,9 +24,8 @@ class HomePage extends GetView<WeatherController> {
     return AppBar(
       title: const Text(
         'Weather App',
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      backgroundColor: Colors.blue[700],
       elevation: 0,
       centerTitle: true,
       actions: [
@@ -39,7 +37,7 @@ class HomePage extends GetView<WeatherController> {
             child: Center(
               child: Text(
                 controller.lastUpdateText,
-                style: const TextStyle(color: Colors.white70, fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
             ),
           ),
@@ -51,13 +49,6 @@ class HomePage extends GetView<WeatherController> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.blue[700]!, Colors.blue[500]!, Colors.blue[300]!],
-        ),
-      ),
       child: RefreshIndicator(
         onRefresh: () async {
           controller.fetchCurrentWeather();
@@ -97,8 +88,7 @@ class HomePage extends GetView<WeatherController> {
   FloatingActionButton _buildFabButton() {
     return FloatingActionButton(
       onPressed: controller.fetchCurrentWeather,
-      backgroundColor: Colors.white,
-      child: Icon(Icons.refresh, color: Colors.blue[700]),
+      child: const Icon(Icons.refresh),
     );
   }
 
@@ -108,11 +98,7 @@ class HomePage extends GetView<WeatherController> {
       child: Text(
         'Pull down to refresh or tap the refresh button to update weather data',
         textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.white70,
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-        ),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
   }

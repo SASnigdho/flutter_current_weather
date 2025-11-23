@@ -17,68 +17,59 @@ class WeatherCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.blue[50]!, Colors.white, Colors.blue[100]!],
-          ),
+          color:
+              Theme.of(context).cardTheme.color ?? Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           children: [
             // Location Name with Country - REQUIRED
-            _buildLocationSection(),
+            _buildLocationSection(context),
             const SizedBox(height: 24),
 
             // Main Weather Info - REQUIRED: Temperature, Condition, Icon
-            _buildMainWeatherSection(),
+            _buildMainWeatherSection(context),
             const SizedBox(height: 24),
 
             // Temperature Range - REQUIRED: Min/Max Temperatures
-            _buildTemperatureRangeSection(),
+            _buildTemperatureRangeSection(context),
             const SizedBox(height: 16),
 
             // Additional Weather Info
-            _buildAdditionalInfoSection(),
+            _buildAdditionalInfoSection(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildLocationSection() {
+  Widget _buildLocationSection(BuildContext context) {
     return Column(
       children: [
         Text(
           weather.cityName,
-          style: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-            color: Colors.blueGrey,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
         if (weather.countryCode.isNotEmpty) ...[
           const SizedBox(height: 4),
           Text(
             weather.countryCode,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ],
         const SizedBox(height: 8),
         Text(
           DateFormat('EEEE, MMMM d, y').format(DateTime.now()),
-          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );
   }
 
-  Widget _buildMainWeatherSection() {
+  Widget _buildMainWeatherSection(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -101,18 +92,14 @@ class WeatherCard extends StatelessWidget {
             // Weather Condition - REQUIRED
             Text(
               weather.condition,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             if (weather.description.isNotEmpty &&
                 weather.description != weather.condition) ...[
               const SizedBox(height: 4),
               Text(
                 '(${weather.description})',
-                style: TextStyle(fontSize: 12, color: Colors.grey[500]),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ],
@@ -123,15 +110,13 @@ class WeatherCard extends StatelessWidget {
           children: [
             Text(
               '${weather.temperature.round()}°C',
-              style: const TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               'Feels like ${weather.feelsLike.round()}°C',
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
         ),
@@ -139,19 +124,19 @@ class WeatherCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTemperatureRangeSection() {
+  Widget _buildTemperatureRangeSection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue[50],
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue[100]!),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           // Minimum Temperature - REQUIRED
           _buildTemperatureItem(
+            context,
             icon: Icons.arrow_downward,
             label: 'Min Temp',
             value: '${weather.tempMin.round()}°C',
@@ -159,10 +144,15 @@ class WeatherCard extends StatelessWidget {
           ),
 
           // Divider
-          Container(width: 1, height: 40, color: Colors.blue[200]),
+          Container(
+            width: 1,
+            height: 40,
+            color: Theme.of(context).dividerColor,
+          ),
 
           // Maximum Temperature - REQUIRED
           _buildTemperatureItem(
+            context,
             icon: Icons.arrow_upward,
             label: 'Max Temp',
             value: '${weather.tempMax.round()}°C',
@@ -173,7 +163,8 @@ class WeatherCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTemperatureItem({
+  Widget _buildTemperatureItem(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required String value,
@@ -183,7 +174,7 @@ class WeatherCard extends StatelessWidget {
       children: [
         Icon(icon, color: color, size: 24),
         const SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+        Text(label, style: Theme.of(context).textTheme.bodySmall),
         const SizedBox(height: 2),
         Text(
           value,
@@ -197,34 +188,37 @@ class WeatherCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAdditionalInfoSection() {
+  Widget _buildAdditionalInfoSection(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue[50],
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue[100]!),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildAdditionalInfoItem(
+            context,
             icon: Icons.water_drop,
             label: 'Humidity',
             value: '${weather.humidity}%',
           ),
           _buildAdditionalInfoItem(
+            context,
             icon: Icons.air,
             label: 'Wind Speed',
             value: '${weather.windSpeed.toStringAsFixed(1)} m/s',
           ),
           _buildAdditionalInfoItem(
+            context,
             icon: Icons.speed,
             label: 'Pressure',
             value: '${weather.pressure} hPa',
           ),
           if (weather.visibility > 0)
             _buildAdditionalInfoItem(
+              context,
               icon: Icons.visibility,
               label: 'Visibility',
               value: '${(weather.visibility / 1000).toStringAsFixed(1)} km',
@@ -234,28 +228,27 @@ class WeatherCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAdditionalInfoItem({
+  Widget _buildAdditionalInfoItem(
+    BuildContext context, {
     required IconData icon,
     required String label,
     required String value,
   }) {
     return Column(
       children: [
-        Icon(icon, color: Colors.blue[700], size: 20),
+        Icon(icon, color: Theme.of(context).colorScheme.primary, size: 20),
         const SizedBox(height: 4),
         Text(
           label,
-          style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+          style: Theme.of(context).textTheme.bodySmall,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 2),
         Text(
           value,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.blueGrey,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
       ],
